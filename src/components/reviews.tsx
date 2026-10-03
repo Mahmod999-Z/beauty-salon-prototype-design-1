@@ -55,8 +55,8 @@ export function Reviews() {
         </Reveal>
         <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
           {reviews.map((review, index) => (
-            <Reveal key={review.name} delay={index * 90}>
-              <TiltCard className="flex h-full flex-col border-t border-ink/15 pt-6">
+            <Reveal key={review.name} delay={index * 90} variant="fade-scale">
+              <TiltCard className="flex h-full flex-col overflow-hidden rounded-[2px] bg-paper p-6 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.15)]">
                 <Stars rating={review.rating} />
                 <p className="mt-4 flex-1 font-display text-xl leading-snug text-ink/90">
                   “{review.quote}”
@@ -73,7 +73,7 @@ export function Reviews() {
             href={salon.reviewsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative inline-block text-sm after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-oak after:transition-transform after:duration-400 after:ease-signature hover:after:scale-x-100"
+            className="link-underline inline-block text-sm"
           >
             Bekijk alle beoordelingen op Google
           </a>

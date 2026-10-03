@@ -19,6 +19,8 @@ export function TiltCard({
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
     el.style.transform = `perspective(800px) rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg)`;
+    el.style.setProperty("--mx", `${((x + 0.5) * 100).toFixed(1)}%`);
+    el.style.setProperty("--my", `${((y + 0.5) * 100).toFixed(1)}%`);
   };
 
   const handleLeave = () => {
@@ -32,9 +34,10 @@ export function TiltCard({
       ref={ref}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      className={`transition-transform duration-300 ease-out will-change-transform ${className}`}
+      className={`tilt-card relative transition-transform duration-300 ease-out will-change-transform ${className}`}
     >
       {children}
+      <div aria-hidden="true" className="tilt-specular" />
     </div>
   );
 }

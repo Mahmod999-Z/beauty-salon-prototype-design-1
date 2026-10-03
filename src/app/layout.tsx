@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
 import { CursorGlow } from "@/components/cursor-glow";
+import { CursorDot } from "@/components/cursor-dot";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { jsonLd, salon } from "@/lib/content";
 import "./globals.css";
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <ScrollProgress />
         <CursorGlow />
+        <CursorDot />
         <div className="grain" aria-hidden="true" />
         <script
           type="application/ld+json"

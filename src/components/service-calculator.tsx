@@ -1,9 +1,38 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { serviceGroups } from "@/lib/content";
 import { formatEuro, parsePrice } from "@/lib/price";
 import { whatsappHref } from "@/lib/whatsapp";
+
+function useTweenedTotal(target: number) {
+  const [display, setDisplay] = useState(target);
+  const frame = useRef(0);
+
+  useEffect(() => {
+    cancelAnimationFrame(frame.current);
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      frame.current = requestAnimationFrame(() => setDisplay(target));
+      return () => cancelAnimationFrame(frame.current);
+    }
+
+    const start = performance.now();
+    const from = display;
+    const duration = 400;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(from + (target - from) * eased);
+      if (t < 1) frame.current = requestAnimationFrame(tick);
+    };
+    frame.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target]);
+
+  return display;
+}
 
 export function ServiceCalculator() {
   const flat = useMemo(
@@ -40,6 +69,8 @@ export function ServiceCalculator() {
       ? `Hoi, ik wil graag: ${chosen.map((service) => service.name).join(", ")}.`
       : "Hoi, ik wil graag een afspraak maken.";
 
+  const displayTotal = useTweenedTotal(total);
+
   return (
     <div className="mt-16 border-t border-oak pt-10">
       <p className="type-label text-ink/60">Stel je bezoek samen</p>
@@ -53,7 +84,7 @@ export function ServiceCalculator() {
               type="button"
               onClick={() => toggle(service.name)}
               aria-pressed={isSelected}
-              className={`rounded-full border px-4 py-2 text-sm transition-all duration-300 ease-signature ${
+              className={`rounded-full border px-4 py-2 text-sm transition-all duration-300 ease-signature active:scale-95 ${
                 isSelected
                   ? "border-oak bg-oak text-ink"
                   : "border-ink/20 text-ink/70 hover:border-oak hover:text-ink"
@@ -70,7 +101,7 @@ export function ServiceCalculator() {
           <p className="font-display text-4xl leading-none text-oak">
             {chosen.length === 0
               ? "—"
-              : `${hasFrom ? "vanaf " : ""}€${formatEuro(total)}`}
+              : `${hasFrom ? "vanaf " : ""}€${formatEuro(displayTotal)}`}
           </p>
           {totalMinutes > 0 ? (
             <p className="mt-2 text-sm text-ink/60">± {totalMinutes} minuten</p>
@@ -80,6 +111,7 @@ export function ServiceCalculator() {
           href={whatsappHref(message)}
           target="_blank"
           rel="noopener noreferrer"
+          data-cursor-label="App"
           className="inline-flex items-center gap-2 bg-oak px-5 py-3 text-sm font-medium text-ink transition-all duration-300 ease-signature hover:-translate-y-0.5"
           style={{ borderRadius: "2px" }}
         >

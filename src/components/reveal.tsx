@@ -2,14 +2,18 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
+type RevealVariant = "fade-up" | "fade-scale" | "slide-left" | "slide-right" | "clip";
+
 export function Reveal({
   children,
   className = "",
   delay = 0,
+  variant = "fade-up",
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
+  variant?: RevealVariant;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -39,7 +43,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={`reveal ${className}`}
+      className={`reveal reveal--${variant} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

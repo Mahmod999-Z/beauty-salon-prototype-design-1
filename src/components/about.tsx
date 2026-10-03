@@ -6,14 +6,22 @@ export function About() {
   return (
     <section id="over" className="px-5 py-24 md:px-10 md:py-32">
       <div className="mx-auto grid max-w-6xl items-end gap-10 md:grid-cols-12">
-        <Reveal className="md:col-span-5">
-          <p className="type-label text-ink/60">Over {salon.owner}</p>
+        <Reveal className="md:col-span-5" variant="slide-left">
+          <div className="h-16 w-16 overflow-hidden rounded-full grayscale transition-[filter] duration-500 ease-signature hover:grayscale-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/gallery-owner.jpg"
+              alt={`${salon.owner}, eigenaar van ${salon.name}`}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <p className="type-label mt-5 text-ink/60">Over {salon.owner}</p>
           <p className="type-display mt-4">
             <AnimatedNumber value={salon.years} />
           </p>
           <p className="type-label mt-3 text-ink/60">jaar in het vak</p>
         </Reveal>
-        <Reveal className="md:col-span-6 md:col-start-7">
+        <Reveal className="md:col-span-6 md:col-start-7" variant="slide-right">
           <h2 className="type-heading">
             {salon.owner} luistert naar wat je echt wilt.
           </h2>

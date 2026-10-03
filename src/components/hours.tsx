@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { salon, hours } from "@/lib/content";
 import { readStatus, type Status } from "@/lib/hours-status";
+import { Reveal } from "@/components/reveal";
 
 export function Hours() {
   const [status, setStatus] = useState<Status | null>(null);
@@ -15,8 +16,15 @@ export function Hours() {
   }, []);
 
   return (
-    <section id="tijden" className="bg-brick px-5 py-20 text-paper md:px-10 md:py-28">
-      <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-12">
+    <section
+      id="tijden"
+      className="relative overflow-hidden bg-gradient-to-br from-brick to-[#3a3836] px-5 py-20 text-paper md:px-10 md:py-28"
+    >
+      <div aria-hidden="true" className="hero-grain absolute inset-0" />
+      <Reveal
+        variant="clip"
+        className="relative z-10 mx-auto grid max-w-6xl gap-12 md:grid-cols-12"
+      >
         <div className="md:col-span-5">
           <p className="type-label text-paper/60">Openingstijden</p>
           <h2 className="type-heading mt-3">Wanneer de deur open is.</h2>
@@ -48,6 +56,7 @@ export function Hours() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={`tel:${salon.phoneTel}`}
+              data-cursor-label="Bel"
               className="inline-flex items-center bg-oak px-5 py-3 text-sm font-medium text-ink transition-all duration-300 ease-signature hover:-translate-y-0.5"
               style={{ borderRadius: "2px" }}
             >
@@ -57,6 +66,7 @@ export function Hours() {
               href={salon.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-cursor-label="Route"
               className="inline-flex items-center border border-paper/30 px-5 py-3 text-sm font-medium text-paper transition-all duration-300 ease-signature hover:-translate-y-0.5 hover:border-oak hover:text-oak"
               style={{ borderRadius: "2px" }}
             >
@@ -76,7 +86,7 @@ export function Hours() {
               >
                 <span
                   aria-hidden="true"
-                  className="absolute inset-y-0 left-0 w-0 bg-paper/5 transition-[width] duration-300 ease-out group-hover/hour:w-full"
+                  className="absolute inset-y-0 left-0 w-0 bg-paper/10 transition-[width] duration-300 ease-out group-hover/hour:w-full"
                 />
                 <dt
                   className={`relative ${isToday ? "text-paper" : "text-paper/80"}`}
@@ -111,7 +121,7 @@ export function Hours() {
             );
           })}
         </dl>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -2,6 +2,7 @@ import { serviceGroups } from "@/lib/content";
 import { AnimatedPrice } from "@/components/animated-price";
 import { Reveal } from "@/components/reveal";
 import { ServiceCalculator } from "@/components/service-calculator";
+import { TiltCard } from "@/components/tilt-card";
 
 export function Services() {
   return (
@@ -16,7 +17,8 @@ export function Services() {
         <div className="mt-16 grid gap-16 md:grid-cols-3 md:gap-12">
           {serviceGroups.map((group, groupIndex) => (
             <Reveal key={group.id} delay={groupIndex * 120} className="group/col">
-              <div className="transition-transform duration-500 ease-signature hover:-translate-y-1.5">
+              <TiltCard>
+                <div className="transition-transform duration-500 ease-signature hover:-translate-y-1.5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <h3 className="font-display text-3xl">{group.label}</h3>
@@ -67,7 +69,8 @@ export function Services() {
                     </li>
                   ))}
                 </ul>
-              </div>
+                </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

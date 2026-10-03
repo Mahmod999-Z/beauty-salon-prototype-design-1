@@ -1,8 +1,21 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { salon } from "@/lib/content";
 import { Reveal } from "@/components/reveal";
+import { readStatus, type Status } from "@/lib/hours-status";
 
 export function Footer() {
+  const [status, setStatus] = useState<Status | null>(null);
+
+  useEffect(() => {
+    const update = () => setStatus(readStatus(new Date()));
+    update();
+    const id = window.setInterval(update, 30_000);
+    return () => window.clearInterval(id);
+  }, []);
+
   return (
     <footer className="border-t border-ink/15 px-5 py-10 md:px-10">
       <Reveal className="mx-auto flex max-w-6xl flex-col gap-8">
@@ -11,7 +24,7 @@ export function Footer() {
             Een concept van{" "}
             <Link
               href="/over-dit-concept"
-              className="relative font-medium text-ink after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-oak after:transition-transform after:duration-400 after:ease-signature hover:text-oak hover:after:scale-x-100"
+              className="link-underline font-medium text-ink hover:text-oak"
             >
               Xbuilt Studio
             </Link>
@@ -19,12 +32,20 @@ export function Footer() {
           </p>
           <p className="text-sm text-ink/70">
             {salon.name}
+            {status ? (
+              <span className="ml-2 inline-flex items-center gap-1.5 text-xs text-ink/50">
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${status.open ? "bg-oak" : "bg-ink/30"}`}
+                />
+                {status.open ? "Nu open" : "Nu gesloten"}
+              </span>
+            ) : null}
             <br />
             {salon.street}, {salon.city}
             <br />
             <a
               href={`tel:${salon.phoneTel}`}
-              className="relative transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-oak after:transition-transform after:duration-400 after:ease-signature hover:text-oak hover:after:scale-x-100"
+              className="link-underline transition-colors duration-300 hover:text-oak"
             >
               {salon.phoneDisplay}
             </a>

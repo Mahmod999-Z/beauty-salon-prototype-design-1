@@ -10,12 +10,13 @@ export function Contact() {
   return (
     <section id="contact" className="px-5 py-24 md:px-10 md:py-32">
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-12">
-        <Reveal className="md:col-span-7">
+        <Reveal className="md:col-span-7" variant="slide-left">
           <p className="type-label text-ink/60">Contact</p>
           <h2 className="type-heading mt-3">Loop binnen, of bel.</h2>
           <a
             href={`tel:${salon.phoneTel}`}
-            className="type-heading relative mt-8 inline-block text-oak after:absolute after:bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-oak after:transition-transform after:duration-500 after:ease-signature hover:after:scale-x-100"
+            data-cursor-label="Bel"
+            className="link-underline link-underline--heading type-heading mt-8 inline-block text-oak"
           >
             {salon.phoneDisplay}
           </a>
@@ -26,13 +27,14 @@ export function Contact() {
             href={whatsappHref("Hoi, ik wil graag een afspraak maken.")}
             target="_blank"
             rel="noopener noreferrer"
+            data-cursor-label="App"
             className="mt-6 inline-flex items-center gap-2 border border-ink/20 px-5 py-3 text-sm font-medium text-ink transition-all duration-300 ease-signature hover:-translate-y-0.5 hover:border-oak hover:text-oak"
             style={{ borderRadius: "2px" }}
           >
             App via WhatsApp
           </a>
         </Reveal>
-        <Reveal className="md:col-span-4 md:col-start-9">
+        <Reveal className="md:col-span-4 md:col-start-9" variant="slide-right">
           <p className="type-label text-ink/60">Adres</p>
           <p className="mt-4 text-xl">
             {salon.street}
@@ -41,7 +43,8 @@ export function Contact() {
           </p>
           <a
             href={salon.mapsUrl}
-            className="relative mt-4 inline-block text-sm after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-oak after:transition-transform after:duration-400 after:ease-signature hover:after:scale-x-100"
+            data-cursor-label="Route"
+            className="link-underline mt-4 inline-block text-sm"
             target="_blank"
             rel="noopener noreferrer"
           >

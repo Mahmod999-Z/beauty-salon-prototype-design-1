@@ -1,19 +1,37 @@
+"use client";
+
 import { salon } from "@/lib/content";
 import { HeroVideo } from "@/components/hero-video";
+import { HeroBokeh } from "@/components/hero-bokeh";
 import { OpenBadge } from "@/components/open-badge";
 import { Reveal } from "@/components/reveal";
+import { useScrollOffset } from "@/hooks/use-scroll-offset";
 
 export function Hero() {
+  const scrollY = useScrollOffset();
+  const parallaxY = Math.min(scrollY * 0.15, 40);
+  const cueOpacity = Math.max(0, 1 - scrollY / 80);
+
   return (
     <section
       id="top"
-      className="relative flex flex-col overflow-hidden bg-ink md:min-h-[100svh]"
+      className="safari-clip-fix relative flex flex-col overflow-hidden bg-ink md:min-h-[100svh]"
     >
-      <div className="absolute inset-0">
+      <div
+        className="safari-clip-fix absolute inset-0 overflow-hidden"
+        style={{ transform: `translateY(${parallaxY}px) translateZ(0)` }}
+      >
         <HeroVideo />
+        <div aria-hidden="true" className="hero-vignette absolute inset-0" />
+        <div aria-hidden="true" className="hero-grain absolute inset-0" />
+        <HeroBokeh />
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/50"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bone md:h-56"
         />
       </div>
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-24 md:px-10 md:pt-28">
@@ -52,6 +70,7 @@ export function Hero() {
             <p className="mt-4 text-lg text-paper/85">Binnenlopen mag.</p>
             <a
               href={`tel:${salon.phoneTel}`}
+              data-cursor-label="Bel"
               className="mt-8 inline-flex bg-oak px-5 py-3 text-sm font-medium text-ink transition-all duration-300 ease-signature hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.45)]"
               style={{ borderRadius: "2px" }}
             >
@@ -63,6 +82,7 @@ export function Hero() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden justify-center motion-reduce:hidden md:flex"
+        style={{ opacity: cueOpacity }}
       >
         <span className="flex h-9 w-9 animate-bounce items-center justify-center rounded-full border border-paper/30 text-paper/70">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

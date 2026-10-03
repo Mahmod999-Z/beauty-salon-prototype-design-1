@@ -3,18 +3,46 @@
 import { useEffect, useRef, useState } from "react";
 
 export function HeroVideo() {
-  const ref = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
 
   useEffect(() => {
-    const video = ref.current;
+    const video = videoRef.current;
     if (!video) return;
     video.muted = true;
     video.play().catch(() => {});
   }, []);
 
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(pointer: coarse)").matches
+    ) {
+      return;
+    }
+
+    let frame = 0;
+    const onMove = (event: MouseEvent) => {
+      const x = event.clientX / window.innerWidth - 0.5;
+      const y = event.clientY / window.innerHeight - 0.5;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        wrapper.style.transform = `perspective(1200px) rotateX(${(-y * 3).toFixed(2)}deg) rotateY(${(x * 3).toFixed(2)}deg) scale(1.03)`;
+      });
+    };
+
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
   const toggleSound = () => {
-    const video = ref.current;
+    const video = videoRef.current;
     if (!video) return;
     const next = !muted;
     video.muted = next;
@@ -23,20 +51,26 @@ export function HeroVideo() {
 
   return (
     <>
-      <video
-        ref={ref}
-        aria-hidden="true"
-        tabIndex={-1}
-        className="hero-video h-full w-full object-cover motion-reduce:hidden"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="none"
-        poster="/hero-poster.jpg"
+      <div
+        ref={wrapperRef}
+        className="hero-video-wrapper h-full w-full transition-transform duration-300 ease-out will-change-transform"
       >
-        <source src="/hero-video.mp4" type="video/mp4" />
-      </video>
+        <video
+          ref={videoRef}
+          aria-hidden="true"
+          tabIndex={-1}
+          className="hero-video h-full w-full object-cover motion-reduce:hidden"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster="/hero-poster.jpg"
+        >
+          <source src="/hero-video.webm" type="video/webm" />
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+      </div>
       <button
         type="button"
         onClick={toggleSound}
