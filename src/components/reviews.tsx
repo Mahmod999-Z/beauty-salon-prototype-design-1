@@ -46,7 +46,7 @@ export function Reviews() {
           {reviewKeywords.map((keyword) => (
             <span
               key={keyword.label}
-              className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 text-sm text-ink/70"
+              className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition-colors duration-300 ease-signature hover:border-oak hover:bg-oak/5 hover:text-ink"
             >
               {keyword.label}
               <span className="text-ink/40">· {keyword.count}×</span>

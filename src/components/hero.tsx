@@ -1,25 +1,43 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { salon } from "@/lib/content";
 import { HeroVideo } from "@/components/hero-video";
 import { HeroBokeh } from "@/components/hero-bokeh";
 import { OpenBadge } from "@/components/open-badge";
 import { Reveal } from "@/components/reveal";
-import { useScrollOffset } from "@/hooks/use-scroll-offset";
+import { useHeroScrollEffects } from "@/hooks/use-hero-scroll";
 
 export function Hero() {
-  const scrollY = useScrollOffset();
-  const parallaxY = Math.min(scrollY * 0.15, 40);
-  const cueOpacity = Math.max(0, 1 - scrollY / 80);
+  const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const cueRef = useRef<HTMLDivElement>(null);
+
+  useHeroScrollEffects(bgRef, cueRef);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        el.classList.toggle("is-offscreen", !entry.isIntersecting);
+      },
+      { rootMargin: "200px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="top"
       className="safari-clip-fix relative flex flex-col overflow-hidden bg-ink md:min-h-[100svh]"
     >
       <div
-        className="safari-clip-fix absolute inset-0 overflow-hidden"
-        style={{ transform: `translateY(${parallaxY}px) translateZ(0)` }}
+        ref={bgRef}
+        className="hero-bg-mask absolute inset-0 overflow-hidden"
+        style={{ transform: "translateZ(0)" }}
       >
         <HeroVideo />
         <div aria-hidden="true" className="hero-vignette absolute inset-0" />
@@ -29,11 +47,11 @@ export function Hero() {
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/50"
         />
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bone md:h-56"
-        />
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-bone md:h-28"
+      />
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-24 md:px-10 md:pt-28">
         <Reveal>
           <p className="flex flex-wrap items-center gap-3 type-label text-paper/70">
@@ -80,9 +98,9 @@ export function Hero() {
         </Reveal>
       </div>
       <div
+        ref={cueRef}
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden justify-center motion-reduce:hidden md:flex"
-        style={{ opacity: cueOpacity }}
       >
         <span className="flex h-9 w-9 animate-bounce items-center justify-center rounded-full border border-paper/30 text-paper/70">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

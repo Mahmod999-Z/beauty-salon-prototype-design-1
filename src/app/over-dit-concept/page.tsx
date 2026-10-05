@@ -41,7 +41,7 @@ export default function OverDitConcept() {
       <Reveal>
         <Link
           href="/"
-          className="type-label relative text-ink/60 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-oak after:transition-transform after:duration-400 after:ease-signature hover:text-oak hover:after:scale-x-100"
+          className="link-underline type-label text-ink/60 hover:text-oak"
         >
           ← Terug naar de site
         </Link>
@@ -80,7 +80,7 @@ export default function OverDitConcept() {
         </p>
         <Link
           href="/"
-          className="type-label relative mt-6 inline-block text-oak after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-oak after:transition-transform after:duration-400 after:ease-signature hover:after:scale-x-100"
+          className="link-underline type-label mt-6 inline-block text-oak"
         >
           Bekijk het resultaat →
         </Link>

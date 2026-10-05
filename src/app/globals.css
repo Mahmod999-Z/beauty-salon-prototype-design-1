@@ -170,6 +170,21 @@ body {
   -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
+.hero-bg-mask {
+  -webkit-mask-image: -webkit-linear-gradient(
+    top,
+    black 0%,
+    black 80%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
+}
+
+#top.is-offscreen .hero-video,
+#top.is-offscreen .hero-bokeh {
+  animation-play-state: paused;
+}
+
 .hero-vignette {
   pointer-events: none;
   background: radial-gradient(
@@ -207,10 +222,10 @@ body {
   border-radius: 9999px;
   background: radial-gradient(
     circle,
-    rgba(194, 155, 107, 0.5),
-    transparent 70%
+    rgba(194, 155, 107, 0.4) 0%,
+    rgba(194, 155, 107, 0.18) 40%,
+    transparent 72%
   );
-  filter: blur(6px);
   animation: bokeh-drift var(--duration, 20s) ease-in-out var(--delay, 0s)
     infinite;
 }
