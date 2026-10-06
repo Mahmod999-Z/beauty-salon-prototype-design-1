@@ -21,6 +21,7 @@ export function CursorDot() {
 
     let frame = 0;
     let active = false;
+    let settled = true;
 
     const onMove = (event: MouseEvent) => {
       target.current = { x: event.clientX, y: event.clientY };
@@ -28,11 +29,25 @@ export function CursorDot() {
         active = true;
         el.classList.add("is-active");
       }
+      if (settled) {
+        settled = false;
+        frame = requestAnimationFrame(tick);
+      }
     };
 
     const tick = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.2;
-      pos.current.y += (target.current.y - pos.current.y) * 0.2;
+      const dx = target.current.x - pos.current.x;
+      const dy = target.current.y - pos.current.y;
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+        pos.current.x = target.current.x;
+        pos.current.y = target.current.y;
+        el.style.setProperty("--cx", `${pos.current.x}px`);
+        el.style.setProperty("--cy", `${pos.current.y}px`);
+        settled = true;
+        return;
+      }
+      pos.current.x += dx * 0.2;
+      pos.current.y += dy * 0.2;
       el.style.setProperty("--cx", `${pos.current.x}px`);
       el.style.setProperty("--cy", `${pos.current.y}px`);
       frame = requestAnimationFrame(tick);
@@ -60,7 +75,6 @@ export function CursorDot() {
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseover", onOver);
     document.addEventListener("mouseout", onOut);
-    frame = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
