@@ -32,11 +32,11 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="safari-clip-fix relative flex flex-col overflow-hidden bg-ink md:min-h-[100svh]"
+      className="sticky top-0 z-0 flex min-h-[100svh] flex-col overflow-hidden bg-ink"
     >
       <div
         ref={bgRef}
-        className="hero-bg-mask absolute inset-0 overflow-hidden"
+        className="safari-clip-fix absolute inset-0 overflow-hidden"
         style={{ transform: "translateZ(0)" }}
       >
         <HeroVideo />
@@ -48,10 +48,6 @@ export function Hero() {
           className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/50"
         />
       </div>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-bone md:h-28"
-      />
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-24 md:px-10 md:pt-28">
         <Reveal>
           <p className="flex flex-wrap items-center gap-3 type-label text-paper/70">

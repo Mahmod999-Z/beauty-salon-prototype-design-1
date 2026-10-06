@@ -170,16 +170,6 @@ body {
   -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
-.hero-bg-mask {
-  -webkit-mask-image: -webkit-linear-gradient(
-    top,
-    black 0%,
-    black 80%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
-}
-
 #top.is-offscreen .hero-video,
 #top.is-offscreen .hero-bokeh {
   animation-play-state: paused;

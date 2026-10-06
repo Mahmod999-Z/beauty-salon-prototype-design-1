@@ -5,7 +5,10 @@ import { TiltCard } from "@/components/tilt-card";
 
 export function Services() {
   return (
-    <section id="diensten" className="px-5 pt-16 md:px-10 md:pt-40">
+    <section
+      id="diensten"
+      className="relative z-10 bg-bone px-5 pt-16 shadow-[0_-40px_60px_-30px_rgba(0,0,0,0.3)] md:px-10 md:pt-40"
+    >
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="type-label text-ink/60">Diensten & prijzen</p>
