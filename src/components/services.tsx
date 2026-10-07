@@ -7,7 +7,7 @@ export function Services() {
   return (
     <section
       id="diensten"
-      className="relative z-10 bg-bone px-5 pt-16 shadow-[0_-40px_60px_-30px_rgba(0,0,0,0.3)] md:px-10 md:pt-40"
+      className="relative z-10 -mt-10 rounded-t-[1.75rem] bg-bone px-5 pt-16 shadow-[0_-24px_50px_-20px_rgba(0,0,0,0.45)] md:-mt-16 md:rounded-t-[2.5rem] md:px-10 md:pt-40"
     >
       <div className="mx-auto max-w-6xl">
         <Reveal>

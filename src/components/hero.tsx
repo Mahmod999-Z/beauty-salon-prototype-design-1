@@ -32,11 +32,11 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="sticky top-0 z-0 flex min-h-[100svh] flex-col overflow-hidden bg-ink"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink"
     >
       <div
         ref={bgRef}
-        className="safari-clip-fix absolute inset-0 overflow-hidden"
+        className="hero-bg-mask absolute inset-0 overflow-hidden"
         style={{ transform: "translateZ(0)" }}
       >
         <HeroVideo />
