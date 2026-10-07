@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
 
   useEffect(() => {
@@ -12,33 +11,6 @@ export function HeroVideo() {
     if (!video) return;
     video.muted = true;
     video.play().catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) return;
-    if (
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-      window.matchMedia("(pointer: coarse)").matches
-    ) {
-      return;
-    }
-
-    let frame = 0;
-    const onMove = (event: MouseEvent) => {
-      const x = event.clientX / window.innerWidth - 0.5;
-      const y = event.clientY / window.innerHeight - 0.5;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        wrapper.style.transform = `perspective(1200px) rotateX(${(-y * 3).toFixed(2)}deg) rotateY(${(x * 3).toFixed(2)}deg) scale(1.03)`;
-      });
-    };
-
-    window.addEventListener("mousemove", onMove);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      cancelAnimationFrame(frame);
-    };
   }, []);
 
   const toggleSound = () => {
@@ -51,10 +23,7 @@ export function HeroVideo() {
 
   return (
     <>
-      <div
-        ref={wrapperRef}
-        className="hero-video-wrapper h-full w-full transition-transform duration-300 ease-out will-change-transform"
-      >
+      <div className="hero-video-wrapper h-full w-full">
         <video
           ref={videoRef}
           aria-hidden="true"
@@ -64,10 +33,15 @@ export function HeroVideo() {
           muted
           loop
           playsInline
-          preload="none"
+          preload="metadata"
           poster="/hero-poster.jpg"
         >
-          <source src="/hero-video.webm" type="video/webm" />
+          {/* Explicit codec string: Safari can't decode VP9 and must reject
+              this source cleanly, otherwise it picks WebM and renders blank. */}
+          <source
+            src="/hero-video.webm"
+            type='video/webm; codecs="vp9, opus"'
+          />
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
       </div>

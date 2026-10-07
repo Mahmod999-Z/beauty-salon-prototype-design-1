@@ -36,8 +36,7 @@ export function Hero() {
     >
       <div
         ref={bgRef}
-        className="hero-bg-mask absolute inset-0 overflow-hidden"
-        style={{ transform: "translateZ(0)" }}
+        className="absolute inset-0 overflow-hidden"
       >
         <HeroVideo />
         <div aria-hidden="true" className="hero-vignette absolute inset-0" />
