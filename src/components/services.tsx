@@ -26,11 +26,13 @@ export function Services() {
                 variant="fade-scale"
                 className="group/col h-full"
               >
-                <TiltCard
-                  className={`relative flex h-full flex-col overflow-hidden rounded-[2px] bg-paper p-8 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] transition-shadow duration-500 ${
-                    featured ? "ring-1 ring-oak" : ""
-                  }`}
-                >
+                <TiltCard className="relative flex h-full flex-col overflow-hidden rounded-[2px] bg-paper p-8 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+                  {featured ? (
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 rounded-[2px] border border-oak"
+                    />
+                  ) : null}
                   {featured ? (
                     <span className="absolute right-6 top-6 rounded-full bg-oak px-3 py-1 type-label text-ink">
                       Populair
